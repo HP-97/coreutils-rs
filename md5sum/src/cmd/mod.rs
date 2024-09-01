@@ -2,8 +2,8 @@
 
 use crate::cli::Cli;
 
-mod generate;
 mod check;
+mod generate;
 
 pub fn run(args: &Cli) -> anyhow::Result<()> {
     if args.check {
@@ -13,4 +13,3 @@ pub fn run(args: &Cli) -> anyhow::Result<()> {
     }
     Ok(())
 }
-

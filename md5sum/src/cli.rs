@@ -3,8 +3,8 @@ use std::path::PathBuf;
 
 use clap::Parser;
 
-/// Print or check MD5 checksums. 
-/// 
+/// Print or check MD5 checksums.
+///
 /// Unix and Windows is supported.
 #[derive(Parser)]
 #[command(version, verbatim_doc_comment)]
@@ -12,7 +12,7 @@ pub struct Cli {
     pub files: Vec<PathBuf>,
     /// read checksums from the FILEs and check them
     #[arg(short, long)]
-    pub check: bool
+    pub check: bool,
 }
 
 /// Parses args
