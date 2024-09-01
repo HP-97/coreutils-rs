@@ -1,7 +1,27 @@
+use std::io::Write;
 use std::path::PathBuf;
 
-/// Finds the legnth of the end of the directory name
-pub fn get_dir_length(path: &PathBuf) -> usize {
+use crate::cli::Cli;
+
+pub fn run(args: &Cli) -> anyhow::Result<()> {
+    args.names
+        .clone()
+        .into_iter()
+        .map(|name| (name.clone(), get_dir_length(&name)))
+        .for_each(|(name, dir_length)| {
+            let substr: String;
+            if dir_length == 0 {
+                substr = ".".to_string();
+            } else {
+                substr = name.chars().take(dir_length - 1).collect();
+            }
+            writeln!(std::io::stdout(), "{}", substr).unwrap();
+        });
+    Ok(())
+}
+
+/// Finds the length of the end of the directory name
+pub fn get_dir_length(path: &str) -> usize {
     let dir_sep;
 
     #[cfg(unix)]
@@ -14,10 +34,9 @@ pub fn get_dir_length(path: &PathBuf) -> usize {
         dir_sep = r"\";
     }
 
-    let path_str = path.to_string_lossy();
-    let path_str_len = path_str.len();
+    let path_str_len = path.len();
 
-    match path_str
+    match path
         .chars()
         .rev()
         .enumerate()
@@ -34,13 +53,13 @@ mod tests {
 
     #[test]
     fn successful_linux_paths() {
-        let test1 = PathBuf::from("asdf");
-        assert_eq!(get_dir_length(&test1), 0);
+        let test1 = "asdf";
+        assert_eq!(get_dir_length(test1), 0);
 
-        let test2 = PathBuf::from("bin/echo");
+        let test2 = "bin/echo";
         assert_eq!(get_dir_length(&test2), 4);
 
-        let test3 = PathBuf::from("/usr/bin/hello");
+        let test3 = "/usr/bin/hello";
         assert_eq!(get_dir_length(&test3), 9);
     }
 }
