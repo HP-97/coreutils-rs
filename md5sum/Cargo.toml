@@ -1,12 +1,11 @@
 [package]
-name = "coreutils-rs"
+name = "md5sum"
 version = "0.1.0"
 edition = "2021"
 
-[workspace]
-members = [
-  "dirname"
-, "md5sum"]
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
+anyhow = "1.0.86"
+clap = { version = "4.5.16", features = ["derive"] }
+md5 = "0.7.0"
