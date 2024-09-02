@@ -22,7 +22,7 @@ pub fn run(args: &Cli) -> anyhow::Result<()> {
         };
 
         let checksum = md5::compute(content);
-        // ensure we have a two whitespace gap between the checksum and path
+        // ensure we have a 2-length whitespace gap between the checksum and path
         writeln!(
             std::io::stdout(),
             "{:x}  {}",
